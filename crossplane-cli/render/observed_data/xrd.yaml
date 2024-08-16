@@ -1,0 +1,40 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xtenants.k8s.example.com
+spec:
+  group: k8s.example.com
+  claimNames:
+    kind: Tenant
+    plural: tenants
+  names:
+    kind: XTenant
+    plural: xtenants
+  versions:
+    - name: v1alpha1
+      referenceable: true
+      served: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                environment:
+                  default: dev
+                  type: string
+                  enum: 
+                  - dev
+                  - test
+                  - prod
+                teams:
+                  type: array
+                  items:
+                    type: string
+            status:
+              type: object
+              properties:
+                namespaces:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true 

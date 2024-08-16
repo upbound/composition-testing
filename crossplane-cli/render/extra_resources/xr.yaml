@@ -1,0 +1,11 @@
+apiVersion: k8s.example.com/v1alpha1
+kind: XTenant
+metadata:
+  name: example
+spec:
+  group: webdev
+  environment: dev
+  teams:
+    - team-1
+    - team-2
+    - team-3

@@ -1,0 +1,8 @@
+apiVersion: k8s.example.com/v1alpha1
+kind: Tenant
+metadata:
+  name: dev-teams
+  namespace: src-ns
+spec:
+  teams:
+    - team-test

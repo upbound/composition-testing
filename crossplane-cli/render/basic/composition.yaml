@@ -1,0 +1,53 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xtenant.k8s.example.com
+spec:
+  compositeTypeRef:
+    apiVersion: k8s.example.com/v1alpha1
+    kind: XTenant
+  mode: Pipeline
+  pipeline:
+    - step: template-resources
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            {{- range $i, $team := .observed.composite.resource.spec.teams }}
+            ---
+            apiVersion: kubernetes.crossplane.io/v1alpha2
+            kind: Object
+            metadata:
+              annotations:
+                {{ setResourceNameAnnotation (print "namespace-" $team) }}
+            spec:
+              forProvider:
+                manifest:
+                  apiVersion: v1
+                  kind: Namespace
+                  metadata:
+                    name: {{ $team }}
+            {{- end }}
+            ---
+            apiVersion: {{ .observed.composite.resource.apiVersion }}
+            kind: XTenant # Or Can use {{ .observed.composite.resource.kind }}
+            status:
+              namespaces:
+              {{- range $i, $team := .observed.composite.resource.spec.teams }}
+                {{ $team }}:
+                   {{ with $name:= dig "resources" (print "namespace-" $team) "resource" "metadata" "name" "" $.observed }}
+                   name: {{ $name }}
+                   {{ end }}
+                   {{ with $uid := dig "resources" (print "namespace-" $team) "resource" "metadata" "uid" "" $.observed }}
+                   uid: {{ $uid }}
+                   {{ end }}
+             {{ end }}
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready
+
+

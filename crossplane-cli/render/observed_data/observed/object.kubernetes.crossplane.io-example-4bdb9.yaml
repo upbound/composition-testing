@@ -2,29 +2,29 @@ apiVersion: kubernetes.crossplane.io/v1alpha2
 kind: Object
 metadata:
   annotations:
-    crossplane.io/composition-resource-name: namespace-team-3
-    crossplane.io/external-create-pending: "2024-01-23T02:37:06Z"
-    crossplane.io/external-create-succeeded: "2024-01-23T02:37:06Z"
-    crossplane.io/external-name: dev-teams-kwvvm
-  creationTimestamp: "2024-01-23T02:37:06Z"
+    crossplane.io/composition-resource-name: namespace-team-2
+    crossplane.io/external-create-pending: "2024-08-17T18:09:24Z"
+    crossplane.io/external-create-succeeded: "2024-08-17T18:09:24Z"
+    crossplane.io/external-name: example-4bdb9
+  creationTimestamp: "2024-08-17T18:09:23Z"
   finalizers:
   - finalizer.managedresource.crossplane.io
-  generateName: dev-teams-
-  generation: 1
+  generateName: example-
+  generation: 2
   labels:
     crossplane.io/claim-name: ""
     crossplane.io/claim-namespace: ""
-    crossplane.io/composite: dev-teams
-  name: dev-teams-kwvvm
+    crossplane.io/composite: example
+  name: example-4bdb9
   ownerReferences:
   - apiVersion: k8s.example.com/v1alpha1
     blockOwnerDeletion: true
     controller: true
     kind: XTenant
-    name: dev-teams
-    uid: 2b162599-5852-4e27-9df9-c130ea07945d
-  resourceVersion: "154059"
-  uid: f32d4da1-95e3-4abc-8ada-4541f97d0953
+    name: example
+    uid: fc82b6af-8321-4e9a-855a-ce3ff7a770f6
+  resourceVersion: "487575"
+  uid: a1b9dbf4-91aa-49d9-90d1-4d77c2f8d5fd
 spec:
   deletionPolicy: Delete
   forProvider:
@@ -32,13 +32,14 @@ spec:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: team-3
+        name: team-2
   managementPolicies:
   - '*'
   providerConfigRef:
     name: default
   readiness:
     policy: SuccessfulCreate
+  watch: false
 status:
   atProvider:
     manifest:
@@ -46,10 +47,10 @@ status:
       kind: Namespace
       metadata:
         annotations:
-          kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"team-3"}}'
-        creationTimestamp: "2024-01-23T02:37:06Z"
+          kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"team-2"}}'
+        creationTimestamp: "2024-08-17T18:09:24Z"
         labels:
-          kubernetes.io/metadata.name: team-3
+          kubernetes.io/metadata.name: team-2
         managedFields:
         - apiVersion: v1
           fieldsType: FieldsV1
@@ -63,21 +64,21 @@ status:
                 f:kubernetes.io/metadata.name: {}
           manager: crossplane-kubernetes-provider
           operation: Update
-          time: "2024-01-23T02:37:06Z"
-        name: team-3
-        resourceVersion: "154045"
-        uid: 11672934-1e6b-4378-b506-7eda585bdb6e
+          time: "2024-08-17T18:09:24Z"
+        name: team-2
+        resourceVersion: "487567"
+        uid: da427a15-f237-438b-8889-cc98b42343b7
       spec:
         finalizers:
         - kubernetes
       status:
         phase: Active
   conditions:
-  - lastTransitionTime: "2024-01-23T02:37:06Z"
-    reason: Available
-    status: "True"
-    type: Ready
-  - lastTransitionTime: "2024-01-23T02:37:06Z"
+  - lastTransitionTime: "2024-08-17T18:09:23Z"
     reason: ReconcileSuccess
     status: "True"
     type: Synced
+  - lastTransitionTime: "2024-08-17T18:09:24Z"
+    reason: Available
+    status: "True"
+    type: Ready

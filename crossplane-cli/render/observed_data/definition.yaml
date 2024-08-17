@@ -21,13 +21,6 @@ spec:
             spec:
               type: object
               properties:
-                environment:
-                  default: dev
-                  type: string
-                  enum: 
-                  - dev
-                  - test
-                  - prod
                 teams:
                   type: array
                   items:

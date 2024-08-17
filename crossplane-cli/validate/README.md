@@ -20,6 +20,23 @@ The [schemas](schemas) directory contains a `configuration.yaml` file.
 `crossplane beta validate` will download CRDs from each of the
 Configuration's dependencies.
 
+The upstream Crossplane package contains a number of dependencies, as can
+be seen in [crossplane.yaml](https://github.com/upbound/configuration-aws-network/blob/main/crossplane.yaml).
+
+```yaml
+  dependsOn:
+    - provider: xpkg.upbound.io/upbound/provider-aws-ec2
+      version: "v1.11.0"
+    - function: xpkg.upbound.io/crossplane-contrib/function-auto-ready
+      version: "v0.2.1"
+    - function: xpkg.upbound.io/crossplane-contrib/function-go-templating
+      version: "v0.5.0
+```
+
+`crossplane beta validate` will download the configuration package, download
+`dependsOn` packages and store the CRDs under a local cache directory,
+by default `.crossplane/cache`
+
 ## Using Crossplane Beta Render with Validate
 
 Now we can validate the output of `crossplane render` using our Schema
@@ -74,4 +91,5 @@ to remove the `required` field and use default values instead.
 ```shell
 [x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.deletionPolicy: Required value
 [x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork,
+configuration-aws-network : spec.parameters.providerConfigName: Required value
 ```

@@ -7,6 +7,8 @@ One nice feature of this command is that it can download CRDs
 from Configuration and Provider packages automatically into a
 local cache.
 
+The basic syntax of the command is `crossplane beta validate schemas resources`.
+
 ## Validating a Composition
 
 We'll validate the Upbound [configuration-aws-network](https://github.com/upbound/configuration-aws-network/tree/main/apis) Composition.
@@ -90,6 +92,5 @@ to remove the `required` field and use default values instead.
 
 ```shell
 [x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.deletionPolicy: Required value
-[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork,
-configuration-aws-network : spec.parameters.providerConfigName: Required value
+[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork,configuration-aws-network : spec.parameters.providerConfigName: Required value
 ```

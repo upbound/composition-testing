@@ -122,7 +122,7 @@ Once populated, to access context data in a go-template use the key
 `apiextensions.crossplane.io/environment`.
 
 ```go
-{{- $envConf := index .context "apiextensions.crossplane.io/environment" "envConfs" 0 }}
+ {{- $env := index .context "apiextensions.crossplane.io/environment" -}}
 ```
 
 ## Using Extra Resources with Crossplane Render

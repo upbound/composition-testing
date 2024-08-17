@@ -3,8 +3,6 @@ kind: XTenant
 metadata:
   name: example
 spec:
-  group: webdev
-  environment: dev
   teams:
     - team-1
     - team-2

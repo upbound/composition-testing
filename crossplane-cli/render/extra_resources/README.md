@@ -2,9 +2,11 @@
 
 This example shows various ways of Mocking data for the Composition.
 
-Context can come from the built-in alpha Environment Configs.
+Context can come from the built-in alpha [Environment Configurations](https://docs.crossplane.io/latest/concepts/environment-configs/). Note that as
+an alpha feature, the built-in Environment Configurations is likely to be
+deprecated in favor of using Composition Functions with Extra Resources.
 
-Extra Resources are a new feature in Crossplane 1.16, allowing
+[Extra Resources](https://github.com/crossplane/crossplane/blob/master/design/design-doc-composition-functions-extra-resources.md) are a new feature in Crossplane 1.16, allowing
 Functions to get access to any cluster-scoped resource Crossplane
 already has access to. This allows Composition authors to look up
 any other Resource on a Crossplane cluster.
@@ -101,3 +103,36 @@ fields:
         name: webdev-dev
 kind: Context
 ```
+
+## Using Context with Crossplane Render
+
+Data from the Environment and Extra resources is available under `context`
+to the function, with a map key like `apiextensions.crossplane.io/extra-resources`
+indicating the source of the data. Extra-resources are populated as an array
+of items. Each item can be of a different Kind.
+
+When running `crossplane render`, you can specify the key using the
+`--context-files` option. The data must be in JSON format.
+
+```shell
+--context-files="apiextensions.crossplane.io/environment"=environment/dev.json
+```
+
+Once populated, to access context data in a go-template use the key
+`apiextensions.crossplane.io/environment`.
+
+```go
+{{- $envConf := index .context "apiextensions.crossplane.io/environment" "envConfs" 0 }}
+```
+
+## Using Extra Resources with Crossplane Render
+
+Extra resources can by any Crossplane type, from `EnvironmentConfig`s,
+other Composites (like `XCluster`), or Managed Resources. The manifests
+can be stored in a directory like [extra-resources](extra-resources),
+and made available to `crossplane render` using the `--extra-resources` argument.
+
+Extra resources are available to the function, but not all functions have been
+updated to support them. For example, it was recently merged into [function-go-templating](https://github.com/crossplane-contrib/function-go-templating/pull/83).
+
+If a function doesn't support them natively, [function-extra-resources](https://github.com/crossplane-contrib/function-extra-resources/tree/main) can be used to populate the Context under the key `apiextensions.crossplane.io/extra-resources`.

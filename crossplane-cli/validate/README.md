@@ -43,7 +43,7 @@ $ crossplane beta render \
 package schemas does not exist, downloading:  xpkg.upbound.io/upbound/configuration-aws-network:v0.15.0
 package schemas does not exist, downloading:  xpkg.upbound.io/upbound/provider-aws-ec2:v1.4.0
 package schemas does not exist, downloading:  xpkg.upbound.io/crossplane-contrib/function-auto-ready:v0.2.1
-package schemas does not exist, downloading:  xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.4.1
+package schemas does not exist, downloading:  xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.5.0
 [x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.deletionPolicy: Required value
 [x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.providerConfigName: Required value
 [✓] ec2.aws.upbound.io/v1beta1, Kind=InternetGateway, configuration-aws-network-w7nb4 validated successfully

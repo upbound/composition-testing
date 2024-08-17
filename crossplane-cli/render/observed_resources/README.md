@@ -1,7 +1,7 @@
-# Observed Data
+# Observed Resources
 
-Often times a Composition author needs data from resources, like the
-VPC Id, or the OIDC endpoint of a Kubernetes cluster. Since Composition
+A Composition author often needs data from resources, like the
+VPC ID, or the OIDC endpoint of a Kubernetes cluster. Since Composition
 functions can have access to observed data, we'd like to test things like
 one resource referencing the `atProvider` status of another resource.
 

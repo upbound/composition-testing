@@ -1,9 +1,9 @@
 # Rendering Compositions with the Crossplane CLI
 
-[`crossplane beta render`](https://docs.crossplane.io/latest/cli/command-reference/#beta-render)
+[`crossplane render`](https://docs.crossplane.io/latest/cli/command-reference/#render)
 can be used to preview the output of a Composition.
 
-To use `crossplane beta render`, we need 3 files:
+To use `crossplane render`, we need 3 files:
 
 - [`xr.yaml`](xr.yaml) A Composite resource
 - [`composition.yaml`](composition.yaml) the Composition to render
@@ -12,7 +12,7 @@ To use `crossplane beta render`, we need 3 files:
 To render, run:
 
 ```shell
-crossplane beta render xr.yaml composition.yaml functions.yaml
+crossplane render xr.yaml composition.yaml functions.yaml
 ```
 
 You should see:
@@ -21,7 +21,7 @@ You should see:
 2. 3 `Object`s that represent Kubernetes resources.
 
 ```shell
-$ crossplane beta render xr.yaml composition.yaml functions.yaml
+$ crossplane render xr.yaml composition.yaml functions.yaml
 ---
 apiVersion: k8s.example.com/v1alpha1
 kind: XTenant
@@ -132,7 +132,7 @@ spec:
 
 ## Missing Status
 
-One issue is the `status` of the `XTenant` Composite is not populated with 
+One issue is the `status` of the `XTenant` Composite is not populated with
 any data. How can we be sure our Composition's status updates are working correctly?
 
 ```yaml

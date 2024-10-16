@@ -29,10 +29,10 @@ To render use `--observed-resources` flag pointing to a directory
 containing Observed resources:
 
 ```shell
-$ crossplane beta render \
+$ crossplane render \
   --observed-resources observed \
   --include-full-xr \
-  xr.yaml composition.yaml functions.yaml 
+  xr.yaml composition.yaml functions.yaml
 ```
 
 The `XTenant` output from render should now have `status` populated:
@@ -93,7 +93,7 @@ And trace the resources created in the composition. If there are errors,
 `kubectl describe` the resource:
 
 ```shell
-$ crossplane beta trace xtenant.k8s.example.com/example  
+$ crossplane beta trace xtenant.k8s.example.com/example
 NAME                      SYNCED   READY   STATUS
 XTenant/example           True     True    Available
 ├─ Object/example-8zp58   True     True    Available

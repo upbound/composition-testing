@@ -1,7 +1,7 @@
-crossplane beta render \
+crossplane render \
   --extra-resources extra-resources \
   --observed-resources observed \
   --context-files="apiextensions.crossplane.io/environment"=environment/dev.json \
   --include-full-xr \
-  xr.yaml composition.yaml functions.yaml 
+  xr.yaml composition.yaml functions.yaml
 

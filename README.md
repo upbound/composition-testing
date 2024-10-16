@@ -4,7 +4,7 @@ This repository contains examples for testing Crossplane Compositions.
 
 ## Using the Crossplane CLI
 
-Note that in Crossplane 1.17 (late August 2024), `crossplane beta render` will graduate to `crossplane render`.
+Note that since Crossplane 1.17 (late August 2024), `crossplane beta render` graduated to `crossplane render`.
 
 The following examples use the Crossplane [CLI](https://docs.crossplane.io/latest/cli/):
 
@@ -18,4 +18,4 @@ The following examples use the Crossplane [CLI](https://docs.crossplane.io/lates
 ## References
 
 - [Testing and Release Patterns for Crossplane](https://kccncossaidevchn2024.sched.com/event/1eYZ7) Kubecon China 2024
-  
+

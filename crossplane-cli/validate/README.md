@@ -39,13 +39,13 @@ be seen in [crossplane.yaml](https://github.com/upbound/configuration-aws-networ
 `dependsOn` packages and store the CRDs under a local cache directory,
 by default `.crossplane/cache`
 
-## Using Crossplane Beta Render with Validate
+## Using Crossplane render with Validate
 
 Now we can validate the output of `crossplane render` using our Schema
 and Observed resources:
 
 ```shell
-crossplane beta render \
+crossplane render \
   --observed-resources observed \
   --include-full-xr \
   xr.yaml composition.yaml functions.yaml  | crossplane beta validate schemas -
@@ -55,7 +55,7 @@ The first time you run the command, it will download CRDs from the
 schemas directory:
 
 ```shell
-$ crossplane beta render \
+$ crossplane render \
   --observed-resources observed \
   --include-full-xr \
   xr.yaml composition.yaml functions.yaml  | crossplane beta validate schemas -

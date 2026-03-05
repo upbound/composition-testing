@@ -4,5 +4,6 @@ crossplane render \
   --context-files="apiextensions.crossplane.io/environment"=environment/dev.json \
   --include-full-xr \
   --include-context \
+  --xrd=xrd.yaml \
   xr.yaml composition.yaml functions.yaml
 

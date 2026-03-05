@@ -1,43 +1,43 @@
-apiVersion: ec2.aws.upbound.io/v1beta1
+apiVersion: ec2.aws.m.upbound.io/v1beta1
 kind: RouteTableAssociation
 metadata:
   annotations:
     crossplane.io/composition-resource-name: rta-us-west-2a-private
-    crossplane.io/external-create-pending: "2024-08-17T00:19:56Z"
-    crossplane.io/external-create-succeeded: "2024-08-17T00:19:57Z"
-    crossplane.io/external-name: rtbassoc-0b3a4d9e590618d49
-  creationTimestamp: "2024-08-17T00:15:48Z"
+    crossplane.io/external-create-pending: "2026-03-05T14:22:10Z"
+    crossplane.io/external-create-succeeded: "2026-03-05T14:22:10Z"
+    crossplane.io/external-name: rtbassoc-01e8eb3cad86d080d
+  creationTimestamp: "2026-03-05T14:21:07Z"
   finalizers:
   - finalizer.managedresource.crossplane.io
   generateName: configuration-aws-network-
   generation: 3
   labels:
-    crossplane.io/claim-name: ""
-    crossplane.io/claim-namespace: ""
     crossplane.io/composite: configuration-aws-network
     networks.aws.platform.upbound.io/network-id: configuration-aws-network
-  name: configuration-aws-network-stjtq
+  name: configuration-aws-network-766287f8af7b
+  namespace: default
   ownerReferences:
   - apiVersion: aws.platform.upbound.io/v1alpha1
     blockOwnerDeletion: true
     controller: true
-    kind: XNetwork
+    kind: Network
     name: configuration-aws-network
-    uid: 74422427-ef9c-4d2c-bee5-3a6cfef8684d
-  resourceVersion: "464316"
-  uid: 8171692b-0d0b-444e-a0e7-028e3785a295
+    uid: 9e460da7-b0c0-4882-8521-c4f5cd8320f2
+  resourceVersion: "35321"
+  uid: de82e47f-ce64-4a87-b5ed-5059ce577b87
 spec:
-  deletionPolicy: Delete
   forProvider:
     region: us-west-2
-    routeTableId: rtb-0af6bc45f6642a988
+    routeTableId: rtb-0668bdf211bf86d6e
     routeTableIdRef:
-      name: configuration-aws-network-vbcgd
+      name: configuration-aws-network-72f17771f1d6
+      namespace: default
     routeTableIdSelector:
       matchControllerRef: true
-    subnetId: subnet-0f9e3ba5869114d56
+    subnetId: subnet-021969f40f27310fa
     subnetIdRef:
-      name: configuration-aws-network-52h6d
+      name: configuration-aws-network-151aa2b76753
+      namespace: default
     subnetIdSelector:
       matchControllerRef: true
       matchLabels:
@@ -47,23 +47,26 @@ spec:
   managementPolicies:
   - '*'
   providerConfigRef:
+    kind: ProviderConfig
     name: default
 status:
   atProvider:
     gatewayId: ""
-    id: rtbassoc-0b3a4d9e590618d49
-    routeTableId: rtb-0af6bc45f6642a988
-    subnetId: subnet-0f9e3ba5869114d56
+    id: rtbassoc-01e8eb3cad86d080d
+    region: us-west-2
+    routeTableId: rtb-0668bdf211bf86d6e
+    subnetId: subnet-021969f40f27310fa
   conditions:
-  - lastTransitionTime: "2024-08-17T09:52:57Z"
+  - lastTransitionTime: "2026-03-05T14:23:11Z"
+    observedGeneration: 3
     reason: ReconcileSuccess
     status: "True"
     type: Synced
-  - lastTransitionTime: "2024-08-17T00:20:57Z"
+  - lastTransitionTime: "2026-03-05T14:22:13Z"
     reason: Available
     status: "True"
     type: Ready
-  - lastTransitionTime: "2024-08-17T00:19:57Z"
+  - lastTransitionTime: "2026-03-05T14:22:11Z"
     reason: Success
     status: "True"
     type: LastAsyncOperation

@@ -1,11 +1,11 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xtenant.k8s.example.com
+  name: tenant.k8s.example.com
 spec:
   compositeTypeRef:
     apiVersion: k8s.example.com/v1alpha1
-    kind: XTenant
+    kind: Tenant
   mode: Pipeline
   pipeline:
     - step: template-resources
@@ -19,22 +19,16 @@ spec:
           template: |
             {{- range $i, $team := .observed.composite.resource.spec.teams }}
             ---
-            apiVersion: kubernetes.crossplane.io/v1alpha2
-            kind: Object
+            apiVersion: v1
+            kind: Namespace
             metadata:
+              name: {{ $team }}
               annotations:
                 {{ setResourceNameAnnotation (print "namespace-" $team) }}
-            spec:
-              forProvider:
-                manifest:
-                  apiVersion: v1
-                  kind: Namespace
-                  metadata:
-                    name: {{ $team }}
             {{- end }}
             ---
             apiVersion: {{ .observed.composite.resource.apiVersion }}
-            kind: XTenant # Or Can use {{ .observed.composite.resource.kind }}
+            kind: {{ .observed.composite.resource.kind }}
             status:
               namespaces:
               {{- range $i, $team := .observed.composite.resource.spec.teams }}

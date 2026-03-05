@@ -1,15 +1,13 @@
-apiVersion: apiextensions.crossplane.io/v1
+apiVersion: apiextensions.crossplane.io/v2
 kind: CompositeResourceDefinition
 metadata:
-  name: xtenants.k8s.example.com
+  name: tenants.k8s.example.com
 spec:
+  scope: Cluster
   group: k8s.example.com
-  claimNames:
+  names:
     kind: Tenant
     plural: tenants
-  names:
-    kind: XTenant
-    plural: xtenants
   versions:
     - name: v1alpha1
       referenceable: true

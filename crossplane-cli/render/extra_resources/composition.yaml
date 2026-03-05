@@ -1,16 +1,16 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: Composition
 metadata:
-  name: xtenant.k8s.example.com
+  name: tenant.k8s.example.com
 spec:
   compositeTypeRef:
     apiVersion: k8s.example.com/v1alpha1
-    kind: XTenant
+    kind: Tenant
   mode: Pipeline
   pipeline:
     - step: pull-extra-resources
       functionRef:
-        name: function-extra-resources
+        name: crossplane-contrib-function-extra-resources
       input:
         apiVersion: extra-resources.fn.crossplane.io/v1beta1
         kind: Input
@@ -18,7 +18,7 @@ spec:
           extraResources:
             - kind: EnvironmentConfig
               into: envConfs
-              apiVersion: apiextensions.crossplane.io/v1alpha1
+              apiVersion: apiextensions.crossplane.io/v1beta1
               type: Selector
               selector:
                 maxMatch: 1
@@ -43,7 +43,7 @@ spec:
                     value: cluster
     - step: template-resources
       functionRef:
-        name: function-go-templating
+        name: crossplane-contrib-function-go-templating
       input:
         apiVersion: gotemplating.fn.crossplane.io/v1beta1
         kind: GoTemplate
@@ -56,26 +56,20 @@ spec:
 
             {{- range $i, $team := .observed.composite.resource.spec.teams }}
             ---
-            apiVersion: kubernetes.crossplane.io/v1alpha2
-            kind: Object
+            apiVersion: v1
+            kind: Namespace
             metadata:
+              name: {{ $team }}
               annotations:
                 {{ setResourceNameAnnotation (print "namespace-" $team) }}
               labels:
               {{- if $envLabels }}
               {{ $envLabels | toYaml | nindent 4 }}
-              {{- end }}                
-            spec:
-              forProvider:
-                manifest:
-                  apiVersion: v1
-                  kind: Namespace
-                  metadata:
-                    name: {{ $team }}
+              {{- end }}
             {{- end }}
             ---
             apiVersion: {{ .observed.composite.resource.apiVersion }}
-            kind: XTenant # Or Can use {{ .observed.composite.resource.kind }}
+            kind: {{ .observed.composite.resource.kind }}
             status:
               namespaces:
               {{- range $i, $team := .observed.composite.resource.spec.teams }}
@@ -89,6 +83,6 @@ spec:
              {{ end }}
     - step: automatically-detect-ready-composed-resources
       functionRef:
-        name: function-auto-ready
+        name: crossplane-contrib-function-auto-ready
 
 

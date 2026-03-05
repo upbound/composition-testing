@@ -12,19 +12,20 @@ To use `crossplane render`, we need 3 files:
 To render, run:
 
 ```shell
-crossplane render xr.yaml composition.yaml functions.yaml
+crossplane render --xrd=xrd.yaml xr.yaml composition.yaml functions.yaml
 ```
 
 You should see:
 
 1. The Composite Resource (XR) `XTenant`
-2. 3 `Object`s that represent Kubernetes resources.
+2. 3 Namespaces
 
 ```shell
-$ crossplane render xr.yaml composition.yaml functions.yaml
+$ crossplane render --xrd=xrd.yaml xr.yaml composition.yaml functions.yaml
+---
 ---
 apiVersion: k8s.example.com/v1alpha1
-kind: XTenant
+kind: Tenant
 metadata:
   name: example
 spec:
@@ -44,75 +45,53 @@ status:
     team-2: null
     team-3: null
 ---
-apiVersion: kubernetes.crossplane.io/v1alpha2
-kind: Object
+apiVersion: v1
+kind: Namespace
 metadata:
   annotations:
     crossplane.io/composition-resource-name: namespace-team-1
-  generateName: example-
   labels:
     crossplane.io/composite: example
+  name: team-1
   ownerReferences:
     - apiVersion: k8s.example.com/v1alpha1
       blockOwnerDeletion: true
       controller: true
-      kind: XTenant
+      kind: Tenant
       name: example
       uid: ""
-spec:
-  forProvider:
-    manifest:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: team-1
 ---
-apiVersion: kubernetes.crossplane.io/v1alpha2
-kind: Object
+apiVersion: v1
+kind: Namespace
 metadata:
   annotations:
     crossplane.io/composition-resource-name: namespace-team-2
-  generateName: example-
   labels:
     crossplane.io/composite: example
+  name: team-2
   ownerReferences:
     - apiVersion: k8s.example.com/v1alpha1
       blockOwnerDeletion: true
       controller: true
-      kind: XTenant
+      kind: Tenant
       name: example
       uid: ""
-spec:
-  forProvider:
-    manifest:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: team-2
 ---
-apiVersion: kubernetes.crossplane.io/v1alpha2
-kind: Object
+apiVersion: v1
+kind: Namespace
 metadata:
   annotations:
     crossplane.io/composition-resource-name: namespace-team-3
-  generateName: example-
   labels:
     crossplane.io/composite: example
+  name: team-3
   ownerReferences:
     - apiVersion: k8s.example.com/v1alpha1
       blockOwnerDeletion: true
       controller: true
-      kind: XTenant
+      kind: Tenant
       name: example
       uid: ""
-spec:
-  forProvider:
-    manifest:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: team-3
-
 ```
 
 Open the [`xr.yaml`](xr.yaml) file, and change the list in `spec.teams`.

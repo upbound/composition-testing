@@ -1,5 +1,6 @@
 apiVersion: k8s.example.com/v1alpha1
-kind: XTenant
+kind: Tenant
+
 metadata:
   name: example
 spec:

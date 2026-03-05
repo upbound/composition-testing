@@ -1,4 +1,4 @@
-re# Rendering Compositions with the Crossplane CLI
+# Rendering Compositions with the Crossplane CLI
 
 [`crossplane render`](https://docs.crossplane.io/latest/cli/command-reference/#render)
 can be used to preview the output of a Composition.

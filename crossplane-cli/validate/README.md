@@ -1,7 +1,7 @@
 # Validating Compositions
 
-The Crossplane CLI [`beta validate`](https://docs.crossplane.io/latest/cli/command-reference/#beta-validate) can be used to validate
-resource schemas.
+The Crossplane CLI [`beta validate`](https://docs.crossplane.io/latest/cli/command-reference/#beta-validate)
+can be used to validate resource schemas.
 
 One nice feature of this command is that it can download CRDs
 from Configuration and Provider packages automatically into a
@@ -18,26 +18,13 @@ that `crossplane render` can utilize status.
 
 ## Validating against Schemas
 
-The [schemas](schemas) directory contains a `configuration.yaml` file.
-`crossplane beta validate` will download CRDs from each of the
-Configuration's dependencies.
-
-The upstream Crossplane package contains a number of dependencies, as can
-be seen in [crossplane.yaml](https://github.com/upbound/configuration-aws-network/blob/main/crossplane.yaml).
-
-```yaml
-  dependsOn:
-    - provider: xpkg.upbound.io/upbound/provider-aws-ec2
-      version: "v1.11.0"
-    - function: xpkg.upbound.io/crossplane-contrib/function-auto-ready
-      version: "v0.2.1"
-    - function: xpkg.upbound.io/crossplane-contrib/function-go-templating
-      version: "v0.5.0
-```
-
-`crossplane beta validate` will download the configuration package, download
-`dependsOn` packages and store the CRDs under a local cache directory,
+The [schemas](schemas) directory contains a `provider.yaml` file.
+`crossplane beta validate` will download CRDs from the provider
+and store the CRDs under a local cache directory,
 by default `.crossplane/cache`
+
+The schemas directory can contain CRD YAML files or Crossplane configuration
+packages.
 
 ## Using Crossplane render with Validate
 
@@ -48,6 +35,7 @@ and Observed resources:
 crossplane render \
   --observed-resources observed \
   --include-full-xr \
+  --xrd=definition.yaml \
   xr.yaml composition.yaml functions.yaml  | crossplane beta validate schemas -
 ```
 
@@ -59,38 +47,28 @@ $ crossplane render \
   --observed-resources observed \
   --include-full-xr \
   xr.yaml composition.yaml functions.yaml  | crossplane beta validate schemas -
-package schemas does not exist, downloading:  xpkg.upbound.io/upbound/configuration-aws-network:v0.15.0
-package schemas does not exist, downloading:  xpkg.upbound.io/upbound/provider-aws-ec2:v1.4.0
-package schemas does not exist, downloading:  xpkg.upbound.io/crossplane-contrib/function-auto-ready:v0.2.1
-package schemas does not exist, downloading:  xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.5.0
-[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.deletionPolicy: Required value
-[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.providerConfigName: Required value
-[✓] ec2.aws.upbound.io/v1beta1, Kind=InternetGateway, configuration-aws-network-w7nb4 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=MainRouteTableAssociation, configuration-aws-network-pg888 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=Route, configuration-aws-network-9n2x8 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=RouteTable, configuration-aws-network-vbcgd validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-stjtq validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-gfb42 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-jdqj2 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-pnvdg validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=SecurityGroup, configuration-aws-network-9m99r validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=SecurityGroupRule, configuration-aws-network-s4pzf validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=SecurityGroupRule, configuration-aws-network-kq5th validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-52h6d validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-phfgs validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-mxxs4 validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-gzzrb validated successfully
-[✓] ec2.aws.upbound.io/v1beta1, Kind=VPC, configuration-aws-network-6jtl4 validated successfully
-Total 17 resources: 0 missing schemas, 16 success cases, 1 failure cases
-crossplane: error: cannot validate resources: could not validate all resources
-```
-
-You'll notice two errors. `validate` will compare the Composite
-Resource (XR) to the XRD schema. We can either add these values
-to the [`xr.yaml`](xr.yaml) file or update our upstream Configuration
-to remove the `required` field and use default values instead.
-
-```shell
-[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork, configuration-aws-network : spec.parameters.deletionPolicy: Required value
-[x] schema validation error aws.platform.upbound.io/v1alpha1, Kind=XNetwork,configuration-aws-network : spec.parameters.providerConfigName: Required value
+package schemas does not exist, downloading:  xpkg.upbound.io/upbound/provider-aws-ec2:v2.4.0
+ crossplane render \
+  --observed-resources observed \
+  --include-full-xr \
+  --xrd=definition.yaml \
+  xr.yaml composition.yaml functions.yaml  | crossplane beta validate schemas -
+[!] could not find CRD/XRD for: aws.platform.upbound.io/v1alpha1, Kind=Network
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=InternetGateway, configuration-aws-network-e1f7ae1d4d09 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=MainRouteTableAssociation, configuration-aws-network-d93f43bac41b validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=Route, configuration-aws-network-215548ce6f59 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=RouteTable, configuration-aws-network-72f17771f1d6 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-766287f8af7b validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-9b710048ae71 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-2e89937b5bd6 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=RouteTableAssociation, configuration-aws-network-90fbf3497761 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=SecurityGroup, configuration-aws-network-f40a19845fe6 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=SecurityGroupRule, configuration-aws-network-0a3a003d28fd validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=SecurityGroupRule, configuration-aws-network-746fa12e6d72 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-151aa2b76753 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-2ef28615ffd0 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-f48c7994f60e validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=Subnet, configuration-aws-network-346503482372 validated successfully
+[✓] ec2.aws.m.upbound.io/v1beta1, Kind=VPC, configuration-aws-network-efaa264d4a75 validated successfully
+Total 17 resources: 1 missing schemas, 16 success cases, 0 failure cases
 ```

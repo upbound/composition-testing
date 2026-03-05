@@ -1,12 +1,13 @@
-apiVersion: apiextensions.crossplane.io/v1
+apiVersion: apiextensions.crossplane.io/v2
 kind: CompositeResourceDefinition
 metadata:
-  name: xnetworks.aws.platform.upbound.io
+  name: networks.aws.platform.upbound.io
 spec:
+  scope: Namespaced
   group: aws.platform.upbound.io
   names:
-    kind: XNetwork
-    plural: xnetworks
+    kind: Network
+    plural: networks
   versions:
     - name: v1alpha1
       served: true
@@ -27,13 +28,20 @@ spec:
                     region:
                       type: string
                       description: Region is the region you'd like your resource to be created in.
-                    deletionPolicy:
-                      description: Delete the external resources when the Claim/XR is deleted. Defaults to Delete
-                      enum:
-                        - Delete
-                        - Orphan
-                      type: string
-                      default: Delete
+                    managementPolicies:
+                      description: Management policies for the managed resources. Defaults to full management.
+                      type: array
+                      default:
+                        - '*'
+                      items:
+                        type: string
+                        enum:
+                          - Observe
+                          - Create
+                          - Update
+                          - Delete
+                          - LateInitialize
+                          - '*'
                     providerConfigName:
                       description: Crossplane ProviderConfig to use for provisioning this resources
                       type: string
@@ -75,7 +83,7 @@ spec:
                           type: private
                           cidrBlock: 192.168.192.0/18
                   required:
-                    - deletionPolicy
+                    - managementPolicies
                     - providerConfigName
                     - id
                     - region
